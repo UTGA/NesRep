@@ -82,10 +82,37 @@ class Imported(Base):
     id = Column(Integer, primary_key=True)
     File = Column(Integer)
     dateImported = Column(String)
+    TARGET = Column(String)
+    stop_scan_on_disconnect = Column(String)
+    report_crashes = Column(String)
+    name = Column(String)
+    whoami = Column(String)
+    optimize_test = Column(String)
+    log_whole_attack = Column(String)
+    ssl_cipher_list = Column(String)
+    unscanned_closed = Column(String)
+    plugins_timeout = Column(String)
+    auto_enable_dependencies = Column(String)
+    safe_checks = Column(String)
+    report_task_id = Column(String)
+    stop_scan_on_hang = Column(String)
+    visibility = Column(String)
+    max_hosts = Column(String)
+    feed_type = Column(String)
+    silent_dependencies = Column(String)
+    port_range = Column(String)
 
     def __repr__(self):
-        return"<Imported(File='%s',dateImported='%s)>" % (
-            self.file, self.dateImported)
+        return"<Imported(File='%s',dateImported='%s',TARGET='%s',stop_scan_on_disconnect='%s',report_crashes='%s'," \
+              "name='%s',whoami='%s',optimize_test='%s',log_whole_attack='%s',ssl_cipher_list='%s'," \
+              "unscanned_closed='%s',plugins_timeout='%s',auto_enable_dependencies='%s',safe_checks='%s'" \
+              ",report_task_id='%s',stop_scan_on_hang='%s',visibility='%s',max_hosts='%s',feed_type='%s'," \
+              "silent_dependencies='%s',port_range='%s')>" % (
+            self.File, self.dateImported, self.TARGET, self.stop_scan_on_disconnect, self.report_crashes, self.name,
+            self.whoami, self.optimize_test, self.log_whole_attack, self.ssl_cipher_list, self.unscanned_closed,
+            self.plugins_timeout, self.auto_enable_dependencies, self.safe_checks, self.report_task_id,
+            self.stop_scan_on_hang, self.visibility, self.max_hosts, self.feed_type,
+            self.silent_dependencies, self.port_range)
 
 Base.metadata.create_all(engine)
 

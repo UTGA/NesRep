@@ -148,8 +148,10 @@ def jobs():
 def start():
     import Core.Nessus as Nessus
     starttime = datetime.datetime.now()
-    scheduler.add_interval_job(Nessus.check(), minutes=1, start_date=starttime+datetime.timedelta(seconds=6))
+    rpt = Nessus.runrep()
+    #scheduler.add_interval_job(rpt.check, minutes=1, start_date=starttime+datetime.timedelta(seconds=6))
     scheduler.add_interval_job(jobs, minutes=15, start_date=starttime+datetime.timedelta(seconds=10))
+    rpt.check()
 
 
 def add_names(varname, conts):
