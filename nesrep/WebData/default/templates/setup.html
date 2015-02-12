@@ -1,0 +1,29 @@
+{% include 'sheader.html' %}
+<div align="left">
+<h1>Setup</h1>
+    {% if phase == 0 %}
+        Welcome to {{ Product }}<br>
+        Please click next below to finish the installation.<br>
+        We will ask you a few short questions to get you ready to go.<br>
+        <a href="setup?phase=1">Next</a>
+    {% endif %}
+    {% if phase == 1 %}
+        Please select the modules you would like to enable, AniDB should always be enabled which is used to keep a record of all Anime for fast searching.<br>
+        Every collector or downloader you enable will cost more memory and speed of the program, but not every collector has all information, same for the downloaders.<br>
+        <h2>Collectors</h2>
+        {% for module, value in Modules.iteritems() %}
+            {% if value['Section'] == 'Collect' %}
+            <input type="checkbox" {% if value['State'] == True %}checked{% endif %} name={{ module }}> {{ module }}
+                <br>
+            {% endif %}
+        {% endfor %}
+        <h2>Downloaders</h2>
+        {% for module, value in Modules.iteritems() %}
+            {% if value['Section'] == 'Download' %}
+            <input type="checkbox" {% if value['State'] == True %}checked{% endif %} name={{ module }}> {{ module }}
+                <br>
+            {% endif %}
+        {% endfor%}
+    {% endif %}
+</div>
+{% include 'footer.html'%}
