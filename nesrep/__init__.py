@@ -64,7 +64,6 @@ def initialize():
 
         # If set to true a lot more logging will happen
         # ------------------------------------------------------------------
-        # TODO setup a seperate webserver for development mode purposes
         developmentmode = developmentmode
 
         # Set some statics
@@ -82,6 +81,10 @@ def initialize():
         datadir = os.path.join(rundir, 'UserData')
         logdir = os.path.join(datadir, 'Logs')
         cachedir = os.path.join(appdir, 'Cache')
+        Userdir = os.path.expanduser("~")
+        if os.name == 'nt':
+            Userdir = os.path.join(Userdir, 'My Documents')
+            log("NT System detected", "DEBUG")
 
         configfile = os.path.join(datadir, '{0}.ini'.format(__product__))
         dbasefile = os.path.join(datadir, '{0}.vdb'.format(__product__))
@@ -109,12 +112,14 @@ def initialize():
 
         cfg.CheckSec('Data')
         DataBase = cfg.check_str('Data', 'Database', '{0}.vdb'.format(__product__))
-        ImportDir = cfg.check_str('Data', 'ImportDir', os.path.expanduser("~"))
+        ImportDir = cfg.check_str('Data', 'ImportDir', os.path.join(Userdir, 'Nessus-Import'))
 
         cfg.CheckSec('General')
         setup_completed = cfg.check_bool('General', 'Setup_Complete', "False")
 
         cfg.config_write()
+
+        RF.check_dir(ImportDir)
 
         # Initialize the database
         # ------------------------------------------------------------------
@@ -141,7 +146,9 @@ def jobs():
 
 
 def start():
+    import Core.Nessus as Nessus
     starttime = datetime.datetime.now()
+    scheduler.add_interval_job(Nessus.check(), minutes=1, start_date=starttime+datetime.timedelta(seconds=6))
     scheduler.add_interval_job(jobs, minutes=15, start_date=starttime+datetime.timedelta(seconds=10))
 
 

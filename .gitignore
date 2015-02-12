@@ -52,7 +52,9 @@ docs/_build/
 # PyBuilder
 target/
 
-# Kaidame
+# PyCharm
 .idea/
-kaidame/Cache/
+
+# UTGA
+nesrep/Cache/
 UserData/
