@@ -45,10 +45,21 @@ class Hosts(Base):
     id = Column(Integer, primary_key=True)
     Hostname = Column(String)
     IP = Column(String)
+    scanid = Column(Integer)
+    HOST_START = Column(String)
+    HOST_END = Column(String)
+    LastUnauthenticatedResults = Column(String)
+    operating_system = Column(String)
+    system_type = Column(String)
+    Credentialed_Scan = Column(String)
+    policy_used = Column(String)
 
     def __repr__(self):
-        return"<Hosts(Hostname='%s',IP='%s')>" % (
-            self.Hostname, self.IP)
+        return"<Hosts(Hostname='%s',IP='%s', scanid='%s', HOST_START='%s', HOST_END='%s', " \
+              "LastUnauthenticatedResults='%s'. operating_system='%s', system_type='%s', " \
+              "Credentialed_Scan='%s', policy_used='%s')>" % (
+            self.Hostname, self.IP, self.scanid, self.HOST_START, self.HOST_END, self.LastUnauthenticatedResults,
+            self.operating_system, self.system_type, self.Credentialed_Scan, self.policy_used)
 
 
 class Vulnerability(Base):
@@ -80,7 +91,7 @@ class Imported(Base):
     __tablename__ = 'Imported'
 
     id = Column(Integer, primary_key=True)
-    File = Column(Integer)
+    File = Column(String)
     dateImported = Column(String)
     TARGET = Column(String)
     stop_scan_on_disconnect = Column(String)
@@ -103,7 +114,7 @@ class Imported(Base):
     port_range = Column(String)
 
     def __repr__(self):
-        return"<Imported(File='%s',dateImported='%s',TARGET='%s',stop_scan_on_disconnect='%s',report_crashes='%s'," \
+        return "<Imported(File='%s',dateImported='%s',TARGET='%s',stop_scan_on_disconnect='%s',report_crashes='%s'," \
               "name='%s',whoami='%s',optimize_test='%s',log_whole_attack='%s',ssl_cipher_list='%s'," \
               "unscanned_closed='%s',plugins_timeout='%s',auto_enable_dependencies='%s',safe_checks='%s'" \
               ",report_task_id='%s',stop_scan_on_hang='%s',visibility='%s',max_hosts='%s',feed_type='%s'," \
