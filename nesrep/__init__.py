@@ -25,8 +25,9 @@ developmentmode = True
 # Boolean statements
 __initialized__ = update = setup_completed = False
 # Empty string statements
-configfile = rundir = logdir = datadir = dbasefile = dbfunc = server_port = server_user = server_root = server_host = \
-    server_pass = server_style = debugging = tracing = moduledir = cachedir = appdir = ImportDir = ''
+configfile = rundir = logdir = datadir = db = dbfunc = server_port = server_user = server_root = server_host = \
+    server_pass = server_style = debugging = tracing = moduledir = cachedir = appdir = ImportDir = dbuser = \
+            dbpass = dbhost = dbtype = dbip = ''
 # Empty lists
 options = args = process = []
 # Empty dicts
@@ -53,10 +54,11 @@ def log(msg, inf):
 def initialize():
     with thread_lock:
         # Set all variables needed as global variables
-        global __initialized__, debugging, rundir, options, args, datadir, logdir, dbasefile, configfile, dbfunc, \
+        global __initialized__, debugging, rundir, options, args, datadir, logdir, db, configfile, dbfunc, \
             tracing, process, __product__, __version__, logwriter, webserver, cherrypy, config, cfg, \
             server_port, server_user, server_root, server_host, server_pass, server_style, DataBase, developmentmode, \
-            moduledir, logwriter, cachedir, scheduler, modules, setup_completed, appdir, mods, ImportDir
+            moduledir, logwriter, cachedir, scheduler, modules, setup_completed, appdir, mods, ImportDir, dbuser,\
+            dbpass, dbhost, dbtype, dbip
 
         # check if arguments where passed
         # ------------------------------------------------------------------
@@ -111,8 +113,12 @@ def initialize():
         server_style = os.path.join(os.path.join(appdir, "WebData"), cfg.check_str('Server', 'Style', 'default'))
 
         cfg.CheckSec('Data')
-        DataBase = cfg.check_str('Data', 'Database', '{0}.vdb'.format(__product__))
         ImportDir = cfg.check_str('Data', 'ImportDir', os.path.join(Userdir, 'Nessus-Import'))
+        dbtype = cfg.check_str('Data', 'dbtype', 'sqlite')
+        db = cfg.check_str('Data', 'db', '{0}.vdb'.format(__product__))
+        dbuser = cfg.check_str('Data', 'dbuser', 'root')
+        dbpass = cfg.check_str('Data', 'dbpass', 'kenny')
+        dbip = cfg.check_str('Data', 'dbip', '192.168.211.129')
 
         cfg.CheckSec('General')
         setup_completed = cfg.check_bool('General', 'Setup_Complete', "False")
